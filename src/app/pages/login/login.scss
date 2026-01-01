@@ -16,8 +16,9 @@
   position: relative;
   color: white;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   padding: 3rem;
   overflow: hidden;
 
@@ -60,9 +61,11 @@
   max-width: 520px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
   z-index: 1;
   position: relative;
+  margin: auto 0;
+  text-align: center;
 }
 
 .logo {
@@ -95,6 +98,7 @@
   font-weight: 600;
   line-height: 1.3;
   animation: fadeInUp 0.8s ease-out 0.2s both;
+  text-align: center;
 }
 
 .branding-description {
@@ -102,16 +106,20 @@
   line-height: 1.7;
   opacity: 0.95;
   animation: fadeInUp 0.8s ease-out 0.4s both;
+  text-align: center;
 }
 
 .branding-footer {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  text-align: center;
   font-size: 0.875rem;
   opacity: 0.8;
   animation: fadeIn 1s ease-out 0.6s both;
+  z-index: 1;
+  position: relative;
+
+  p {
+    margin: 0;
+  }
 }
 
 @keyframes fadeInDown {
@@ -152,9 +160,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   background: #f8fafc;
   position: relative;
+  overflow-y: auto;
 
   &::before {
     content: '';
@@ -173,7 +182,8 @@
 .login-card {
   width: 100%;
   max-width: 480px;
-  padding: 3rem;
+  padding: 1.5rem;
+  margin: 0.5rem 0;
   border-radius: 16px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
               0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -196,27 +206,38 @@
 
 .login-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem;
+
+  ::ng-deep {
+    .mat-mdc-card-header-text {
+      width: 100%;
+      text-align: center;
+    }
+  }
 
   mat-card-title {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.35rem;
     font-weight: 700;
     color: #0f172a;
     letter-spacing: -0.5px;
+    text-align: center;
+    display: block;
   }
 
   mat-card-subtitle {
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: #64748b;
     font-weight: 400;
+    text-align: center;
+    display: block;
   }
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.75rem;
 }
 
 .full-width {
@@ -264,7 +285,7 @@ form {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0.5rem 0;
+  margin: 0.25rem 0;
 
   ::ng-deep {
     .mdc-checkbox__background {
@@ -297,24 +318,24 @@ form {
 .error-card {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
+  gap: 0.75rem;
   background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
   color: #dc2626;
-  padding: 1rem 1.25rem;
-  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
   border-radius: 10px;
   border-left: 4px solid #ef4444;
   animation: shake 0.5s ease;
 
   mat-icon {
     color: #dc2626;
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
 
   span {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 500;
   }
 }
@@ -333,14 +354,14 @@ form {
 
 .btn-entrar {
   width: 100%;
-  height: 52px;
-  font-size: 1rem;
+  height: 44px;
+  font-size: 0.9375rem;
   font-weight: 600;
-  margin: 1.5rem 0 1rem;
+  margin: 0.5rem 0 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   border-radius: 10px;
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
   box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
@@ -374,30 +395,31 @@ form {
 
 .demo-card {
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  padding: 1.25rem;
-  margin: 1.5rem 0 1rem;
+  padding: 0.75rem;
+  margin: 0.5rem 0 0.25rem;
   text-align: center;
   border-radius: 10px;
   border: 1px solid #93c5fd;
 
   p {
-    margin: 0.375rem 0;
-    font-size: 0.9375rem;
+    margin: 0.15rem 0;
+    font-size: 0.8125rem;
     color: #1e40af;
+    line-height: 1.3;
 
     &:first-child {
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.35rem;
     }
   }
 
   code {
     background-color: #3b82f6;
     color: white;
-    padding: 0.25rem 0.75rem;
+    padding: 0.15rem 0.5rem;
     border-radius: 6px;
     font-family: 'Courier New', monospace;
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.3px;
   }
@@ -405,8 +427,8 @@ form {
 
 .form-footer {
   text-align: center;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
   border-top: 1px solid #e2e8f0;
 
   p {
