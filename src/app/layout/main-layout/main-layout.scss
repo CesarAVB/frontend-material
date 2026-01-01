@@ -1,0 +1,167 @@
+// src/app/layout/main-layout/main-layout.scss
+.main-layout-container {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  ::ng-deep {
+    .mat-drawer-backdrop {
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+    }
+  }
+}
+
+.app-sidebar {
+  width: 260px;
+  background: white;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 100;
+  border-right: none;
+
+  ::ng-deep {
+    .mat-drawer-inner-container {
+      overflow-x: hidden;
+
+      // Customização da scrollbar
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+
+        &:hover {
+          background: #94a3b8;
+        }
+      }
+    }
+  }
+}
+
+.main-content-area {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // Padrão decorativo sutil
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 260px;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(33, 150, 243, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(33, 150, 243, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.sidebar-toggle-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #e2e8f0;
+
+  &:hover {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    box-shadow: 0 6px 12px -2px rgba(33, 150, 243, 0.4);
+    transform: scale(1.05);
+    border-color: transparent;
+
+    mat-icon {
+      color: white;
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  mat-icon {
+    color: #2196f3;
+    transition: color 0.3s ease;
+  }
+}
+
+// Quando o sidebar está aberto, ajusta a posição do botão
+::ng-deep {
+  .mat-drawer-opened ~ .mat-drawer-content {
+    .sidebar-toggle-button {
+      left: 280px;
+    }
+  }
+}
+
+// Animações
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.app-sidebar {
+  animation: slideIn 0.3s ease-out;
+}
+
+// Responsividade
+@media (max-width: 1024px) {
+  .app-sidebar {
+    width: 240px;
+  }
+
+  .main-content-area::before {
+    left: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-sidebar {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .main-content-area::before {
+    left: 0;
+  }
+
+  .sidebar-toggle-button {
+    left: 16px;
+    top: 16px;
+  }
+
+  ::ng-deep {
+    .mat-drawer-opened ~ .mat-drawer-content {
+      .sidebar-toggle-button {
+        left: 16px;
+      }
+    }
+  }
+}

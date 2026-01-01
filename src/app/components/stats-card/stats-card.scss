@@ -1,63 +1,213 @@
-// src/app/components/stats-card/stats-card.component.scss
+// src/app/components/stats-card/stats-card.scss
 .stats-card {
   height: 100%;
-  transition: box-shadow 0.3s;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.5s ease-out backwards;
+
+  // Gradiente decorativo no topo
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+  }
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 24px -4px rgba(37, 99, 235, 0.15),
+                0 8px 16px -8px rgba(37, 99, 235, 0.1);
+    transform: translateY(-4px);
+    border-color: #cbd5e1;
+
+    .stats-icon mat-icon {
+      transform: scale(1.1) rotate(5deg);
+      color: #2563eb;
+    }
   }
+
+  mat-card-content {
+    padding: 1.75rem !important;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Diferentes delays para cada card
+.stats-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stats-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stats-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stats-card:nth-child(4) {
+  animation-delay: 0.4s;
 }
 
 .stats-content {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 1rem;
 }
 
 .stats-text {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .stats-title {
-  font-size: 0.875rem;
-  color: rgba(0, 0, 0, 0.6);
-  margin: 0 0 0.5rem 0;
-  font-weight: 500;
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .stats-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: rgba(0, 0, 0, 0.87);
-  margin-bottom: 0.5rem;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0.25rem 0;
+  line-height: 1;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .stats-change {
   font-size: 0.875rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  width: fit-content;
+  letter-spacing: 0.2px;
 
   &.positive {
-    color: #4caf50;
+    color: #059669;
+    background-color: #d1fae5;
+    border: 1px solid #a7f3d0;
+
+    &::before {
+      content: '↑';
+      font-size: 1rem;
+      font-weight: 900;
+    }
   }
 
   &:not(.positive) {
-    color: #f44336;
+    color: #dc2626;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+
+    &::before {
+      content: '↓';
+      font-size: 1rem;
+      font-weight: 900;
+    }
   }
 }
 
 .stats-subtitle {
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.8125rem;
+  color: #64748b;
   display: block;
   margin-top: 0.5rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .stats-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  flex-shrink: 0;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+
   mat-icon {
-    font-size: 48px;
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    color: #3b82f6;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .stats-card mat-card-content {
+    padding: 1.5rem !important;
+  }
+
+  .stats-value {
+    font-size: 2rem;
+  }
+
+  .stats-icon {
+    width: 56px;
+    height: 56px;
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-content {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .stats-icon {
+    align-self: flex-end;
     width: 48px;
     height: 48px;
-    color: rgba(0, 0, 0, 0.26);
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .stats-value {
+    font-size: 1.75rem;
   }
 }

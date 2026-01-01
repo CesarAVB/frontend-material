@@ -1,30 +1,315 @@
-<mat-stepper [linear]="true" #stepper>
-  
-  <!-- Step 1: Dados Pessoais -->
-  <mat-step [stepControl]="formDadosPessoais">
-    <ng-template matStepLabel>Dados Pessoais</ng-template>
-    <form [formGroup]="formDadosPessoais">
-      <!-- Use mat-form-field para cada campo -->
-      <mat-form-field appearance="outline">
-        <mat-label>Nome Completo</mat-label>
-        <input matInput formControlName="nome" required>
-        <mat-error>Campo obrigatório</mat-error>
-      </mat-form-field>
-      <!-- ... outros campos -->
-      <button mat-button matStepperNext>Próximo</button>
-    </form>
-  </mat-step>
+<!-- src/app/pages/cadastro/cadastro.html -->
+<div class="cadastro-container">
+  <!-- Header -->
+  <div class="cadastro-header">
+    <button mat-icon-button class="btn-voltar" routerLink="/clientes">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-text">
+      <h1>Novo Cadastro de Cliente</h1>
+      <p>Preencha os dados do cliente nas etapas abaixo</p>
+    </div>
+  </div>
 
-  <!-- Step 2: Endereços -->
-  <mat-step [stepControl]="formEnderecos">
-    <ng-template matStepLabel>Endereços</ng-template>
-    <!-- Similar ao Step 1 -->
-  </mat-step>
+  <!-- Stepper Horizontal -->
+  <mat-stepper [linear]="true" #stepper class="custom-stepper">
+    <!-- Step 1: Dados Pessoais -->
+    <mat-step [stepControl]="formDadosPessoais" label="Dados Pessoais">
+      <div class="step-content">
+        <form [formGroup]="formDadosPessoais">
+          <!-- Tipo de Pessoa -->
+          <div class="form-section">
+            <h3 class="section-title">Tipo de Pessoa</h3>
+            <div class="tipo-pessoa-grid">
+              <div class="tipo-card"
+                   [class.selected]="tipoPessoa() === TipoPessoa.FISICA"
+                   (click)="selecionarTipoPessoa(TipoPessoa.FISICA)">
+                <mat-icon>person</mat-icon>
+                <div class="tipo-info">
+                  <h4>Pessoa Física</h4>
+                  <p>Cadastro via CPF</p>
+                </div>
+              </div>
+              <div class="tipo-card"
+                   [class.selected]="tipoPessoa() === TipoPessoa.JURIDICA"
+                   (click)="selecionarTipoPessoa(TipoPessoa.JURIDICA)">
+                <mat-icon>business</mat-icon>
+                <div class="tipo-info">
+                  <h4>Pessoa Jurídica</h4>
+                  <p>Cadastro via CNPJ</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <!-- Step 3: Contatos -->
-  <mat-step [stepControl]="formContatos">
-    <ng-template matStepLabel>Contatos</ng-template>
-    <!-- Similar ao Step 1 -->
-  </mat-step>
-  
-</mat-stepper>
+          <!-- Dados Básicos -->
+          <div class="form-section">
+            <h3 class="section-title">Dados Básicos</h3>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nome Completo</mat-label>
+              <input matInput formControlName="nome" placeholder="Digite o nome completo">
+              <mat-icon matPrefix>badge</mat-icon>
+              <mat-error *ngIf="formDadosPessoais.get('nome')?.hasError('required') && formDadosPessoais.get('nome')?.touched">
+                Campo obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" [class.flex-2]="tipoPessoa() === TipoPessoa.FISICA" [class.full-width]="tipoPessoa() === TipoPessoa.JURIDICA">
+                <mat-label>{{ tipoPessoa() === TipoPessoa.FISICA ? 'CPF' : 'CNPJ' }}</mat-label>
+                <input matInput formControlName="cpfCnpj"
+                       [placeholder]="tipoPessoa() === TipoPessoa.FISICA ? '000.000.000-00' : '00.000.000/0000-00'"
+                       [mask]="tipoPessoa() === TipoPessoa.FISICA ? '000.000.000-00' : '00.000.000/0000-00'"
+                       [dropSpecialCharacters]="false">
+                <mat-icon matPrefix>fingerprint</mat-icon>
+                <mat-error *ngIf="formDadosPessoais.get('cpfCnpj')?.hasError('required') && formDadosPessoais.get('cpfCnpj')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="flex-1" *ngIf="tipoPessoa() === TipoPessoa.FISICA">
+                <mat-label>RG</mat-label>
+                <input matInput formControlName="rg" placeholder="00.000.000-0" mask="00.000.000-0" [dropSpecialCharacters]="false">
+                <mat-icon matPrefix>credit_card</mat-icon>
+                <mat-error *ngIf="formDadosPessoais.get('rg')?.hasError('required') && formDadosPessoais.get('rg')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Data de Nascimento</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
+                <mat-icon matPrefix>calendar_today</mat-icon>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="formDadosPessoais.get('dataNascimento')?.hasError('required') && formDadosPessoais.get('dataNascimento')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Gênero</mat-label>
+                <mat-select formControlName="genero">
+                  <mat-option value="">Selecione</mat-option>
+                  <mat-option value="MASCULINO">Masculino</mat-option>
+                  <mat-option value="FEMININO">Feminino</mat-option>
+                </mat-select>
+                <mat-icon matPrefix>wc</mat-icon>
+                <mat-error *ngIf="formDadosPessoais.get('genero')?.hasError('required') && formDadosPessoais.get('genero')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button mat-button type="button" routerLink="/clientes">Cancelar</button>
+            <button mat-raised-button color="primary" matStepperNext type="button">
+              Próximo
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <!-- Step 2: Endereços -->
+    <mat-step [stepControl]="formEnderecos" label="Endereços">
+      <div class="step-content">
+        <form [formGroup]="formEnderecos">
+          <div class="form-section">
+            <div class="section-header">
+              <div class="section-title-group">
+                <mat-icon class="section-icon">home</mat-icon>
+                <h3 class="section-title">Endereço Principal</h3>
+                <span class="badge-primary">Padrão</span>
+              </div>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>CEP</mat-label>
+                <input matInput formControlName="cep" placeholder="00000-000" maxlength="9" mask="00000-000" [dropSpecialCharacters]="false" id="cep-input">
+                <mat-icon matPrefix>location_on</mat-icon>
+                <button mat-icon-button matSuffix type="button" (click)="buscarCep()">
+                  <mat-icon>search</mat-icon>
+                </button>
+                <mat-error *ngIf="formEnderecos.get('cep')?.hasError('required') && formEnderecos.get('cep')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-2">
+                <mat-label>Logradouro</mat-label>
+                <input matInput formControlName="logradouro" placeholder="Rua, Avenida, etc.">
+                <mat-error *ngIf="formEnderecos.get('logradouro')?.hasError('required') && formEnderecos.get('logradouro')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Número</mat-label>
+                <input matInput formControlName="numero" placeholder="123" id="numero-input">
+                <mat-error *ngIf="formEnderecos.get('numero')?.hasError('required') && formEnderecos.get('numero')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Complemento (Opcional)</mat-label>
+                <input matInput formControlName="complemento" placeholder="Apto, Bloco, etc.">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Bairro</mat-label>
+                <input matInput formControlName="bairro" placeholder="Bairro">
+                <mat-error *ngIf="formEnderecos.get('bairro')?.hasError('required') && formEnderecos.get('bairro')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="flex-2">
+                <mat-label>Cidade</mat-label>
+                <input matInput formControlName="cidade" placeholder="Cidade">
+                <mat-error *ngIf="formEnderecos.get('cidade')?.hasError('required') && formEnderecos.get('cidade')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>UF</mat-label>
+                <mat-select formControlName="uf">
+                  <mat-option value="">Selecione</mat-option>
+                  <mat-option value="AC">AC</mat-option>
+                  <mat-option value="AL">AL</mat-option>
+                  <mat-option value="AP">AP</mat-option>
+                  <mat-option value="AM">AM</mat-option>
+                  <mat-option value="BA">BA</mat-option>
+                  <mat-option value="CE">CE</mat-option>
+                  <mat-option value="DF">DF</mat-option>
+                  <mat-option value="ES">ES</mat-option>
+                  <mat-option value="GO">GO</mat-option>
+                  <mat-option value="MA">MA</mat-option>
+                  <mat-option value="MT">MT</mat-option>
+                  <mat-option value="MS">MS</mat-option>
+                  <mat-option value="MG">MG</mat-option>
+                  <mat-option value="PA">PA</mat-option>
+                  <mat-option value="PB">PB</mat-option>
+                  <mat-option value="PR">PR</mat-option>
+                  <mat-option value="PE">PE</mat-option>
+                  <mat-option value="PI">PI</mat-option>
+                  <mat-option value="RJ">RJ</mat-option>
+                  <mat-option value="RN">RN</mat-option>
+                  <mat-option value="RS">RS</mat-option>
+                  <mat-option value="RO">RO</mat-option>
+                  <mat-option value="RR">RR</mat-option>
+                  <mat-option value="SC">SC</mat-option>
+                  <mat-option value="SP">SP</mat-option>
+                  <mat-option value="SE">SE</mat-option>
+                  <mat-option value="TO">TO</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formEnderecos.get('uf')?.hasError('required') && formEnderecos.get('uf')?.touched">
+                  Campo obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <button mat-stroked-button type="button" class="btn-add">
+            <mat-icon>add</mat-icon>
+            Adicionar novo endereço
+          </button>
+          <div class="step-actions">
+            <button mat-button matStepperPrevious type="button">
+              <mat-icon>arrow_back</mat-icon>
+              Voltar
+            </button>
+            <button mat-raised-button color="primary" matStepperNext type="button">
+              Próximo
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <!-- Step 3: Contatos -->
+    <mat-step [stepControl]="formContatos" label="Contatos">
+      <div class="step-content">
+        <form [formGroup]="formContatos">
+          <!-- Email -->
+          <div class="form-section">
+            <div class="section-header">
+              <div class="section-title-group">
+                <mat-icon class="section-icon">email</mat-icon>
+                <h3 class="section-title">Email</h3>
+              </div>
+              <button mat-icon-button color="warn" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="tipoEmail">
+                  <mat-option value="EMAIL">Email</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-2">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" placeholder="exemplo@email.com">
+                <mat-error *ngIf="formContatos.get('email')?.hasError('required') && formContatos.get('email')?.touched">
+                  Email obrigatório
+                </mat-error>
+                <mat-error *ngIf="formContatos.get('email')?.hasError('email') && formContatos.get('email')?.touched">
+                  Email inválido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Telefone -->
+          <div class="form-section">
+            <div class="section-header">
+              <div class="section-title-group">
+                <mat-icon class="section-icon">phone</mat-icon>
+                <h3 class="section-title">Telefone</h3>
+              </div>
+              <button mat-icon-button color="warn" type="button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="tipoTelefone">
+                  <mat-option value="TELEFONE">Telefone</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-2">
+                <mat-label>Telefone</mat-label>
+                <input matInput formControlName="telefone" placeholder="(00) 00000-0000" mask="(00) 00000-0000" [dropSpecialCharacters]="false">
+                <mat-error *ngIf="formContatos.get('telefone')?.hasError('required') && formContatos.get('telefone')?.touched">
+                  Telefone obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <button mat-stroked-button type="button" class="btn-add">
+            <mat-icon>add</mat-icon>
+            Adicionar novo contato
+          </button>
+
+          <div class="step-actions">
+            <button mat-button matStepperPrevious type="button">
+              <mat-icon>arrow_back</mat-icon>
+              Voltar
+            </button>
+            <button mat-raised-button color="primary" type="button" (click)="submitCadastro()">
+              <mat-icon>check</mat-icon>
+              Finalizar Cadastro
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>
