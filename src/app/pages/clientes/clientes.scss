@@ -1,0 +1,170 @@
+// src/app/pages/clientes/clientes.component.scss
+.clientes-container {
+  padding: 2rem;
+}
+
+.search-card {
+  margin-bottom: 1.5rem;
+}
+
+.search-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-field {
+  flex: 1;
+}
+
+.btn-filtros {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filtros-panel {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+.table-card {
+  overflow-x: auto;
+}
+
+.clientes-table {
+  width: 100%;
+
+  .mat-mdc-header-cell {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .mat-mdc-cell {
+    padding: 1rem 0.5rem;
+  }
+}
+
+.cliente-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cliente-detalhes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .cliente-nome {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .cliente-id {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.contato-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .contato-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 2rem;
+  text-align: center;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: rgba(0, 0, 0, 0.26);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0 0 1rem 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 1rem;
+  }
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+
+  p {
+    margin-top: 1rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #f44336;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0 0 1rem 0;
+    color: #f44336;
+  }
+}
+
+.delete-item {
+  color: #f44336;
+
+  mat-icon {
+    color: #f44336;
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .clientes-container {
+    padding: 1rem;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .btn-filtros {
+    width: 100%;
+  }
+
+  .filtros-panel {
+    flex-direction: column;
+  }
+}

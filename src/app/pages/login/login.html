@@ -1,0 +1,133 @@
+<!-- src/app/pages/login/login.component.html -->
+<div class="login-container">
+  <!-- Lado Esquerdo - Branding -->
+  <div class="login-branding">
+    <div class="branding-content">
+      <div class="logo">
+        <mat-icon class="logo-icon">verified</mat-icon>
+        <h1>SysCadastro</h1>
+      </div>
+
+      <h2 class="branding-title">Sistema de Gestão de Clientes</h2>
+      <p class="branding-description">
+        Gerencie seus clientes de forma eficiente e profissional com nossa plataforma completa.
+      </p>
+
+      <div class="branding-footer">
+        <p>© 2025 César Augusto. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lado Direito - Formulário -->
+  <div class="login-form-container">
+    <mat-card class="login-card">
+      <mat-card-header class="login-header">
+        <mat-card-title>Bem-vindo</mat-card-title>
+        <mat-card-subtitle>Entre com suas credenciais de acesso</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="formLogin" (ngSubmit)="entrar()">
+          
+          <!-- Username -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Usuário</mat-label>
+            <input 
+              matInput 
+              formControlName="username" 
+              placeholder="Insira seu nome de usuário"
+              autocomplete="username">
+            <mat-icon matPrefix>person</mat-icon>
+            @if (formLogin.get('username')?.invalid && formLogin.get('username')?.touched) {
+              <mat-error>Usuário é obrigatório</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Senha -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Senha</mat-label>
+            <input 
+              matInput 
+              [type]="mostrarSenha() ? 'text' : 'password'"
+              formControlName="senha" 
+              placeholder="Insira sua senha"
+              autocomplete="current-password">
+            <mat-icon matPrefix>lock</mat-icon>
+            <button 
+              mat-icon-button 
+              matSuffix 
+              type="button"
+              (click)="toggleMostrarSenha()"
+              [attr.aria-label]="'Mostrar senha'">
+              <mat-icon>{{ mostrarSenha() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
+            @if (formLogin.get('senha')?.invalid && formLogin.get('senha')?.touched) {
+              <mat-error>Senha é obrigatória</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Opções -->
+          <div class="form-options">
+            <mat-checkbox 
+              [checked]="lembrarMe()"
+              (change)="toggleLembrarMe()">
+              Lembrar-me
+            </mat-checkbox>
+            <button 
+              mat-button 
+              type="button" 
+              color="primary"
+              (click)="esqueceuSenha()">
+              Esqueceu a senha?
+            </button>
+          </div>
+
+          <!-- Erro -->
+          @if (erro()) {
+            <mat-card class="error-card">
+              <mat-icon>warning</mat-icon>
+              <span>{{ erro() }}</span>
+            </mat-card>
+          }
+
+          <!-- Botão Entrar -->
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            class="btn-entrar"
+            [disabled]="carregando()">
+            @if (carregando()) {
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Entrando...</span>
+            } @else {
+              <span>Entrar</span>
+            }
+          </button>
+
+          <!-- Demo Info -->
+          <mat-card class="demo-card">
+            <p><strong>Para demonstração, use:</strong></p>
+            <p>Usuário: <code>admin</code></p>
+            <p>Senha: <code>admin123</code></p>
+          </mat-card>
+
+          <!-- Footer -->
+          <div class="form-footer">
+            <p>
+              Não tem uma conta? 
+              <button 
+                mat-button 
+                type="button" 
+                color="primary"
+                (click)="entrarEmContato()">
+                Entre em contato
+              </button>
+            </p>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

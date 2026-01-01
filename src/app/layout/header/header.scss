@@ -1,0 +1,35 @@
+// src/app/layout/header/header.component.scss
+.page-header {
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  min-height: 80px;
+  padding: 0 2rem;
+}
+
+.header-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-text {
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .header-subtitle {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+  }
+}
+
+.btn-novo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

@@ -1,0 +1,30 @@
+<mat-stepper [linear]="true" #stepper>
+  
+  <!-- Step 1: Dados Pessoais -->
+  <mat-step [stepControl]="formDadosPessoais">
+    <ng-template matStepLabel>Dados Pessoais</ng-template>
+    <form [formGroup]="formDadosPessoais">
+      <!-- Use mat-form-field para cada campo -->
+      <mat-form-field appearance="outline">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput formControlName="nome" required>
+        <mat-error>Campo obrigatório</mat-error>
+      </mat-form-field>
+      <!-- ... outros campos -->
+      <button mat-button matStepperNext>Próximo</button>
+    </form>
+  </mat-step>
+
+  <!-- Step 2: Endereços -->
+  <mat-step [stepControl]="formEnderecos">
+    <ng-template matStepLabel>Endereços</ng-template>
+    <!-- Similar ao Step 1 -->
+  </mat-step>
+
+  <!-- Step 3: Contatos -->
+  <mat-step [stepControl]="formContatos">
+    <ng-template matStepLabel>Contatos</ng-template>
+    <!-- Similar ao Step 1 -->
+  </mat-step>
+  
+</mat-stepper>

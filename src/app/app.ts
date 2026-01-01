@@ -1,12 +1,18 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+// src/app/app.component.ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router'; // Apenas RouterOutlet é necessário aqui
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterOutlet
+  ],
+  templateUrl: './app.html', // Seu HTML será o simplificado acima
   styleUrl: './app.scss'
 })
-export class App {
-  protected readonly title = signal('sistema-cadastro-material');
+export class AppComponent {
+  title = 'sistema-cadastro-material'; // Pode manter o título do app aqui
 }

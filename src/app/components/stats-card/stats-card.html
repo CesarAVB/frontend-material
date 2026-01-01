@@ -1,0 +1,22 @@
+<!-- src/app/components/stats-card/stats-card.component.html -->
+<mat-card class="stats-card">
+  <mat-card-content>
+    <div class="stats-content">
+      <div class="stats-text">
+        <h3 class="stats-title">{{ title }}</h3>
+        <div class="stats-value">{{ value }}</div>
+        @if (change) {
+          <p class="stats-change" [class.positive]="change.positive">
+            {{ change.positive ? '+' : '' }}{{ change.value }}
+          </p>
+        }
+        @if (subtitle) {
+          <span class="stats-subtitle">{{ subtitle }}</span>
+        }
+      </div>
+      <div class="stats-icon">
+        <mat-icon>{{ icon }}</mat-icon>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

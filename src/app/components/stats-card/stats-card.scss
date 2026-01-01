@@ -1,0 +1,63 @@
+// src/app/components/stats-card/stats-card.component.scss
+.stats-card {
+  height: 100%;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.stats-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.stats-text {
+  flex: 1;
+}
+
+.stats-title {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.stats-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 0.5rem;
+}
+
+.stats-change {
+  font-size: 0.875rem;
+  margin: 0;
+  font-weight: 600;
+
+  &.positive {
+    color: #4caf50;
+  }
+
+  &:not(.positive) {
+    color: #f44336;
+  }
+}
+
+.stats-subtitle {
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.stats-icon {
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: rgba(0, 0, 0, 0.26);
+  }
+}

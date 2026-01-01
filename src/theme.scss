@@ -1,0 +1,42 @@
+// src/theme.scss
+
+// 1. Importe as funções de tema do Angular Material usando o caminho relativo explícito
+// 💡 ESTA É A MUDANÇA CRUCIAL DE ÚLTIMO RECURSO!
+@use '../../node_modules/@angular/material/theming' as mat; // 👈 MUDANÇA AQUI!
+
+// 2. Inclua o mixin de core do Material.
+@include mat.core(); // Com @use, usamos o prefixo 'mat.'
+
+// 3. Defina suas paletas de cores personalizadas
+$my-app-primary: mat.define-palette(mat.$violet-palette, 700, 500, 900);
+$my-app-secondary: mat.define-palette(mat.$blue-palette, 900, 700, 500);
+$my-app-warn: mat.define-palette(mat.$red-palette);
+
+// 4. Crie o objeto do tema escuro
+$my-app-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $my-app-primary,
+    accent: $my-app-secondary,
+    warn: $my-app-warn,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Roboto, "Helvetica Neue", sans-serif',
+  ),
+  density: 0,
+));
+
+// 5. APLIQUE O TEMA AOS COMPONENTES DO ANGULAR MATERIAL.
+@include mat.all-component-themes($my-app-dark-theme);
+
+// 6. Estilos globais e reset
+html, body {
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+// Estilos específicos para o sidebar
+.app-sidebar {
+  background-color: mat.get-color-from-palette($my-app-secondary, 900); // Usando a função correta para @use
+  color: mat.get-color-from-palette(mat.$white-palette, 'default');
+  // Outros estilos do sidebar...
+}

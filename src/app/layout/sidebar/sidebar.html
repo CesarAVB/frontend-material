@@ -1,0 +1,47 @@
+<!-- src/app/layout/sidebar/sidebar.component.html -->
+<div class="sidebar-container">
+  <!-- Header -->
+  <mat-toolbar color="primary" class="sidebar-header">
+    <div class="logo">
+      <mat-icon class="logo-icon">verified</mat-icon>
+      <span class="logo-text">SysCadastro</span>
+    </div>
+    <span class="version">v1.0</span>
+  </mat-toolbar>
+
+  <!-- Navegação -->
+  <mat-nav-list class="sidebar-nav">
+    @for (item of menuItems; track item.route) {
+      <a 
+        mat-list-item 
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    }
+  </mat-nav-list>
+
+  <mat-divider></mat-divider>
+
+  <!-- Footer com Perfil e Logout -->
+  <div class="sidebar-footer">
+    <div class="user-profile">
+      <div class="user-avatar">{{ usuario().iniciais }}</div>
+      <div class="user-info">
+        <span class="user-name">{{ usuario().nome }}</span>
+        <span class="user-email">{{ usuario().email }}</span>
+      </div>
+    </div>
+
+    <button 
+      mat-raised-button 
+      color="warn" 
+      class="btn-sair"
+      (click)="sair()">
+      <mat-icon>logout</mat-icon>
+      <span>Sair</span>
+    </button>
+  </div>
+</div>

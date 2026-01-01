@@ -1,0 +1,19 @@
+<!-- src/app/layout/header/header.component.html -->
+<mat-toolbar class="page-header">
+  <div class="header-content">
+    <div class="header-text">
+      <h1 class="header-title">{{ titulo }}</h1>
+      <p class="header-subtitle">{{ subtitulo }}</p>
+    </div>
+    @if (mostrarBotaoNovo) {
+      <button 
+        mat-raised-button 
+        color="primary"
+        class="btn-novo"
+        (click)="novoCliente()">
+        <mat-icon>add</mat-icon>
+        <span>Novo Cliente</span>
+      </button>
+    }
+  </div>
+</mat-toolbar>
