@@ -1,5 +1,5 @@
-// src/environments/environment.ts
+// environment.ts
 export const environment = {
   production: true,
-  apiUrl: 'https://api-syscadastro.cesaravb.com.br'
+  apiUrl: 'https://api-syscadastro.cesaravb.com.br' 
 };
