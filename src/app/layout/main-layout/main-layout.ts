@@ -32,7 +32,6 @@ import { AuthService } from './../../services/auth';
           class="sidebar-collapse-btn"
           [ngClass]="sidebarOpened() ? 'open' : 'closed'"
           (click)="onSidebarToggle()">
-          <mat-icon>{{ sidebarOpened() ? 'chevron_left' : 'chevron_right' }}</mat-icon>
         </button>
         <router-outlet></router-outlet>
       </mat-sidenav-content>
