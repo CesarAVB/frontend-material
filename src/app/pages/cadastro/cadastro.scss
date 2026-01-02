@@ -307,6 +307,17 @@
   }
 }
 
+// Grupo de botões (para múltiplos botões de adicionar)
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  .btn-add {
+    margin-top: 0;
+  }
+}
+
 // Ações do Step
 .step-actions {
   display: flex;

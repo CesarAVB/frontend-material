@@ -18,6 +18,7 @@ export class ClienteService {
   }
 
   obterPorId(id: number): Observable<Cliente> {
+    console.log('Obtendo cliente com ID:', `${this.apiUrl}/${id}`);
     return this.http.get<Cliente>(`${this.apiUrl}/${id}`);
   }
 
