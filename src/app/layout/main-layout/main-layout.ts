@@ -22,11 +22,11 @@ import { AuthService } from './../../services/auth';
   ],
   template: `
     <mat-sidenav-container class="main-layout-container">
-      <mat-sidenav mode="side" [opened]="true" class="app-sidebar" [class.collapsed]="!sidebarOpened()">
+      <mat-sidenav mode="side" [opened]="true" class="app-sidebar" [class.collapsed]="!sidebarOpened()" disableClose>
         <app-sidebar (toggleSidebar)="onSidebarToggle()" [class.collapsed]="!sidebarOpened()"></app-sidebar>
       </mat-sidenav>
 
-      <mat-sidenav-content class="main-content-area">
+      <mat-sidenav-content class="main-content-area" [class.content-collapsed]="!sidebarOpened()">
         <button
           mat-icon-button
           class="sidebar-collapse-btn"
@@ -46,6 +46,7 @@ import { AuthService } from './../../services/auth';
       background-color: #0D47A1; /* $blue-900 */
       color: white;
       box-shadow: 2px 0 5px rgba(0,0,0,0.2); /* Sombra para destacar */
+      transition: width 0.3s ease;
     }
     .app-sidebar.collapsed {
       width: 72px !important;
@@ -54,7 +55,12 @@ import { AuthService } from './../../services/auth';
     .main-content-area {
       padding: 0;
       position: relative;
+      margin-left: 250px !important;
+      transition: margin-left 0.3s ease;
       /* Adicione flexbox ou grid se precisar de um layout mais complexo aqui */
+    }
+    .main-content-area.content-collapsed {
+      margin-left: 72px !important;
     }
     .sidebar-collapse-btn {
       position: fixed;
