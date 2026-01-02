@@ -22,13 +22,17 @@ import { AuthService } from './../../services/auth';
   ],
   template: `
     <mat-sidenav-container class="main-layout-container">
-      <mat-sidenav mode="side" [opened]="sidebarOpened()" class="app-sidebar">
-        <app-sidebar (toggleSidebar)="onSidebarToggle()"></app-sidebar>
+      <mat-sidenav mode="side" [opened]="true" class="app-sidebar" [class.collapsed]="!sidebarOpened()">
+        <app-sidebar (toggleSidebar)="onSidebarToggle()" [class.collapsed]="!sidebarOpened()"></app-sidebar>
       </mat-sidenav>
 
       <mat-sidenav-content class="main-content-area">
-        <button mat-icon-button class="sidebar-collapse-btn" (click)="onSidebarToggle()">
-          <mat-icon>chevron_right</mat-icon>
+        <button
+          mat-icon-button
+          class="sidebar-collapse-btn"
+          [ngClass]="sidebarOpened() ? 'open' : 'closed'"
+          (click)="onSidebarToggle()">
+          <mat-icon>{{ sidebarOpened() ? 'chevron_left' : 'chevron_right' }}</mat-icon>
         </button>
         <router-outlet></router-outlet>
       </mat-sidenav-content>
@@ -44,6 +48,10 @@ import { AuthService } from './../../services/auth';
       color: white;
       box-shadow: 2px 0 5px rgba(0,0,0,0.2); /* Sombra para destacar */
     }
+    .app-sidebar.collapsed {
+      width: 72px !important;
+      overflow: hidden;
+    }
     .main-content-area {
       padding: 0;
       position: relative;
@@ -51,34 +59,37 @@ import { AuthService } from './../../services/auth';
     }
     .sidebar-collapse-btn {
       position: fixed;
-      left: calc(250px - 25px);
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 100;
-      background-color: white;
-      color: #2196f3;
-      border: 1px solid #2196f3;
+      left: calc(250px - 10px);
+      top: 76px;
+      transform: translateY(0);
+      z-index: 2000;
+      background: linear-gradient(180deg, #42a5f5 0%, #1e88e5 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
       transition: all 0.25s ease;
-      border-radius: 50%;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 28px;
+      height: 64px;
       padding: 0;
-      box-shadow: 0 2px 4px rgba(33, 150, 243, 0.15);
-    }
-    .sidebar-collapse-btn:hover {
-      color: white;
-      background-color: #2196f3;
-      border-color: #1976d2;
-      box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+      box-shadow: 0 6px 14px rgba(33, 150, 243, 0.45);
+      pointer-events: auto;
     }
     .sidebar-collapse-btn mat-icon {
+      color: white;
       font-size: 20px;
       width: 20px;
       height: 20px;
       line-height: 20px;
+    }
+    .sidebar-collapse-btn.closed {
+      left: calc(72px - 12px);
+    }
+    .sidebar-collapse-btn:hover {
+      background: linear-gradient(180deg, #64b5f6 0%, #2196f3 100%);
+      border-color: white;
+      box-shadow: 0 8px 18px rgba(33, 150, 243, 0.55);
     }
   `]
 })
