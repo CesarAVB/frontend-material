@@ -1,5 +1,5 @@
 // src/app/main-layout/main-layout.component.ts
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -98,7 +98,7 @@ import { AuthService } from './../../services/auth';
     }
   `]
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit {
   authService = inject(AuthService);
   private router = inject(Router);
 
@@ -111,6 +111,21 @@ export class MainLayoutComponent {
       .subscribe(() => {
         this.authService.checkAuthenticationStatus();
       });
+  }
+
+  ngOnInit(): void {
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize(): void {
+    if (window.innerWidth <= 1024) {
+      this.sidebarOpened.set(false);
+    }
   }
 
   onSidebarToggle(): void {
