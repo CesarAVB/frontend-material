@@ -27,9 +27,8 @@ import { AuthService } from './../../services/auth';
       </mat-sidenav>
 
       <mat-sidenav-content class="main-content-area">
-        <!-- Botão para colapsar/expandir o sidebar -->
-        <button mat-icon-button (click)="onSidebarToggle()" class="sidebar-toggle-button">
-          <mat-icon>menu</mat-icon>
+        <button mat-icon-button class="sidebar-collapse-btn" (click)="onSidebarToggle()">
+          <mat-icon>chevron_right</mat-icon>
         </button>
         <router-outlet></router-outlet>
       </mat-sidenav-content>
@@ -46,11 +45,40 @@ import { AuthService } from './../../services/auth';
       box-shadow: 2px 0 5px rgba(0,0,0,0.2); /* Sombra para destacar */
     }
     .main-content-area {
-      padding: 20px;
+      padding: 0;
+      position: relative;
       /* Adicione flexbox ou grid se precisar de um layout mais complexo aqui */
     }
-    .sidebar-toggle-button {
-      margin-bottom: 15px; /* Espaçamento do botão */
+    .sidebar-collapse-btn {
+      position: absolute;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      background-color: white;
+      color: #94a3b8;
+      border: 1px solid #e2e8f0;
+      transition: all 0.25s ease;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar-collapse-btn:hover {
+      color: #2196f3;
+      background-color: #f0f4f8;
+      border-color: #2196f3;
+      box-shadow: 0 4px 8px rgba(33, 150, 243, 0.15);
+    }
+    .sidebar-collapse-btn mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
     }
   `]
 })
