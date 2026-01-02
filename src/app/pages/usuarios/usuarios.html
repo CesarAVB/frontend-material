@@ -1,0 +1,222 @@
+<!-- src/app/pages/usuarios/usuarios.component.html -->
+<app-header 
+  titulo="Listagem de Usuários" 
+  subtitulo="Gerencie as informações e permissões dos usuários do sistema."
+  [mostrarBotaoNovo]="true"
+  textoBotaoNovo="Novo Usuário"
+  (clickNovo)="novoUsuario()">
+</app-header>
+
+<div class="usuarios-container">
+  <!-- Barra de Busca e Filtros -->
+  <mat-card class="search-card">
+    <mat-card-content>
+      <div class="search-row">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Buscar</mat-label>
+          <input 
+            matInput 
+            (keyup)="aplicarFiltro($event)" 
+            placeholder="Buscar por Nome, Email ou Username">
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+
+        <button 
+          mat-raised-button 
+          (click)="toggleFiltros()"
+          class="btn-filtros">
+          <mat-icon>filter_list</mat-icon>
+          <span>Filtros</span>
+        </button>
+      </div>
+
+      <!-- Painel de Filtros -->
+      @if (mostrarFiltros()) {
+        <div class="filtros-panel">
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select [(value)]="filtroStatus">
+              <mat-option value="todos">Todos</mat-option>
+              <mat-option value="ativo">Ativo</mat-option>
+              <mat-option value="inativo">Inativo</mat-option>
+              <mat-option value="bloqueado">Bloqueado</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Tema</mat-label>
+            <mat-select [(value)]="filtroTema">
+              <mat-option value="todos">Todos</mat-option>
+              <mat-option value="light">Claro</mat-option>
+              <mat-option value="dark">Escuro</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-raised-button color="warn" (click)="limparFiltros()">
+            Limpar Filtros
+          </button>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Tabela -->
+  <mat-card class="table-card">
+    @if (!carregando()) {
+      <table mat-table [dataSource]="dataSource" matSort class="usuarios-table">
+        
+        <!-- Coluna Nome -->
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+          <td mat-cell *matCellDef="let usuario">
+            <div class="usuario-info">
+              <app-avatar [name]="usuario.nome" size="md"></app-avatar>
+              <div class="usuario-detalhes">
+                <span class="usuario-nome">{{ usuario.nome }}</span>
+                <span class="usuario-username">@{{ usuario.username }}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Coluna Email -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let usuario">
+            <div class="email-item">
+              <mat-icon class="email-icon">email</mat-icon>
+              <span>{{ usuario.email }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Coluna Permissões -->
+        <ng-container matColumnDef="permissoes">
+          <th mat-header-cell *matHeaderCellDef>Permissões</th>
+          <td mat-cell *matCellDef="let usuario">
+            <div class="permissions-list">
+              @if (usuario.permissions && usuario.permissions.length > 0) {
+                @for (perm of getDisplayPermissions(usuario.permissions); track perm) {
+                  <mat-chip>{{ perm }}</mat-chip>
+                }
+                @if (usuario.permissions.length > 2) {
+                  <mat-chip class="chip-more">+{{ usuario.permissions.length - 2 }}</mat-chip>
+                }
+              } @else {
+                <span class="no-permissions">Sem permissões</span>
+              }
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Coluna Tema -->
+        <ng-container matColumnDef="tema">
+          <th mat-header-cell *matHeaderCellDef>Tema</th>
+          <td mat-cell *matCellDef="let usuario">
+            <mat-chip [ngClass]="usuario.tema === 'dark' ? 'chip-dark' : 'chip-light'">
+              <mat-icon>{{ usuario.tema === 'dark' ? 'dark_mode' : 'light_mode' }}</mat-icon>
+              {{ usuario.tema === 'dark' ? 'Escuro' : 'Claro' }}
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <!-- Coluna Status -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let usuario">
+            <app-status-badge [status]="getStatusBadge(usuario)"></app-status-badge>
+          </td>
+        </ng-container>
+
+        <!-- Coluna Ações -->
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let usuario">
+            <button 
+              mat-icon-button 
+              [matMenuTriggerFor]="menu"
+              [matMenuTriggerData]="{usuario: usuario}">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Linha quando não há dados -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+            <div class="empty-state">
+              <mat-icon>inbox</mat-icon>
+              <p>Nenhum usuário encontrado</p>
+              <button mat-raised-button color="primary" (click)="novoUsuario()">
+                Cadastrar Primeiro Usuário
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator 
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        showFirstLastButtons>
+      </mat-paginator>
+    }
+
+    @if (carregando()) {
+      <div class="loading-state">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Carregando usuários...</p>
+      </div>
+    }
+
+    @if (erro()) {
+      <div class="error-state">
+        <mat-icon>error</mat-icon>
+        <p>{{ erro() }}</p>
+        <button mat-raised-button color="primary" (click)="carregarUsuarios()">
+          Tentar novamente
+        </button>
+      </div>
+    }
+  </mat-card>
+</div>
+
+<!-- Menu de Ações -->
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-usuario="usuario">
+    <button mat-menu-item (click)="visualizar(usuario)">
+      <mat-icon>visibility</mat-icon>
+      <span>Visualizar</span>
+    </button>
+    <button mat-menu-item (click)="editar(usuario)">
+      <mat-icon>edit</mat-icon>
+      <span>Editar</span>
+    </button>
+    <button mat-menu-item (click)="resetarSenha(usuario)">
+      <mat-icon>lock_reset</mat-icon>
+      <span>Resetar Senha</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button 
+      mat-menu-item 
+      (click)="toggleStatus(usuario)"
+      [ngClass]="usuario.enabled ? 'deactivate-item' : 'activate-item'">
+      <mat-icon>{{ usuario.enabled ? 'toggle_off' : 'toggle_on' }}</mat-icon>
+      <span>{{ usuario.enabled ? 'Desativar' : 'Ativar' }}</span>
+    </button>
+    <button 
+      mat-menu-item 
+      (click)="toggleLock(usuario)"
+      [ngClass]="usuario.accountNonLocked ? 'lock-item' : 'unlock-item'">
+      <mat-icon>{{ usuario.accountNonLocked ? 'lock' : 'lock_open' }}</mat-icon>
+      <span>{{ usuario.accountNonLocked ? 'Bloquear' : 'Desbloquear' }}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="excluir(usuario)" class="delete-item">
+      <mat-icon>delete</mat-icon>
+      <span>Excluir</span>
+    </button>
+  </ng-template>
+</mat-menu>

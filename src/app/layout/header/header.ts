@@ -1,5 +1,5 @@
 // src/app/layout/header/header.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -22,10 +22,17 @@ export class HeaderComponent {
   @Input() titulo: string = '';
   @Input() subtitulo: string = '';
   @Input() mostrarBotaoNovo: boolean = false;
+  @Input() rotaNovo: string = '/cadastro';
+  @Input() textoBotaoNovo: string = 'Novo';
+  @Output() clickNovo = new EventEmitter<void>();
 
   constructor(private router: Router) {}
 
   novoCliente(): void {
-    this.router.navigate(['/cadastro']);
+    if (this.clickNovo.observers.length > 0) {
+      this.clickNovo.emit();
+    } else {
+      this.router.navigate([this.rotaNovo]);
+    }
   }
 }

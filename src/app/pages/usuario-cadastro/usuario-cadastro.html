@@ -1,0 +1,253 @@
+<!-- src/app/pages/usuario-cadastro/usuario-cadastro.html -->
+<app-header
+  [titulo]="modoEdicao ? 'Editar Usuário' : 'Novo Usuário'"
+  [subtitulo]="modoEdicao ? 'Atualize as informações do usuário' : 'Preencha os dados do novo usuário'">
+</app-header>
+
+<div class="cadastro-container">
+  <mat-card class="form-card">
+    <mat-card-content>
+      <form [formGroup]="formUsuario" (ngSubmit)="salvar()">
+        
+        <!-- Foto de Perfil -->
+        <div class="foto-section">
+          <h3 class="section-title">
+            <mat-icon>account_circle</mat-icon>
+            Foto de Perfil
+          </h3>
+          <div class="foto-upload">
+            <div class="foto-preview">
+              @if (previewFoto()) {
+                <img [src]="previewFoto()" alt="Preview da foto">
+              } @else if (formUsuario.get('fotoPerfil')?.value) {
+                <img [src]="formUsuario.get('fotoPerfil')?.value" alt="Foto atual">
+              } @else {
+                <mat-icon class="foto-placeholder">person</mat-icon>
+              }
+            </div>
+            <div class="foto-actions">
+              <input 
+                type="file" 
+                #fileInput 
+                accept="image/*" 
+                (change)="onFileSelected($event)"
+                style="display: none;">
+              <button 
+                mat-raised-button 
+                type="button"
+                (click)="fileInput.click()">
+                <mat-icon>upload</mat-icon>
+                Escolher Foto
+              </button>
+              @if (previewFoto() || formUsuario.get('fotoPerfil')?.value) {
+                <button 
+                  mat-button 
+                  color="warn"
+                  type="button"
+                  (click)="removerFoto()">
+                  <mat-icon>delete</mat-icon>
+                  Remover
+                </button>
+              }
+              <span class="foto-hint">JPG, PNG ou GIF (máx. 2MB)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dados Básicos -->
+        <h3 class="section-title">
+          <mat-icon>person</mat-icon>
+          Dados Básicos
+        </h3>
+        <div class="form-section">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput formControlName="nome" placeholder="Digite o nome completo">
+            <mat-icon matPrefix>badge</mat-icon>
+            <mat-error *ngIf="formUsuario.get('nome')?.hasError('required')">
+              Campo obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" placeholder="username">
+              <mat-icon matPrefix>alternate_email</mat-icon>
+              <mat-error *ngIf="formUsuario.get('username')?.hasError('required')">
+                Campo obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" placeholder="usuario@email.com">
+              <mat-icon matPrefix>email</mat-icon>
+              <mat-error *ngIf="formUsuario.get('email')?.hasError('required')">
+                Campo obrigatório
+              </mat-error>
+              <mat-error *ngIf="formUsuario.get('email')?.hasError('email')">
+                Email inválido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Senha -->
+        @if (!modoEdicao) {
+          <h3 class="section-title">
+            <mat-icon>lock</mat-icon>
+            Senha
+          </h3>
+          <div class="form-section">
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Senha</mat-label>
+                <input 
+                  matInput 
+                  [type]="mostrarSenha() ? 'text' : 'password'"
+                  formControlName="password" 
+                  placeholder="Digite a senha">
+                <mat-icon matPrefix>lock</mat-icon>
+                <button 
+                  mat-icon-button 
+                  matSuffix 
+                  type="button"
+                  (click)="toggleMostrarSenha()">
+                  <mat-icon>{{ mostrarSenha() ? 'visibility' : 'visibility_off' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="formUsuario.get('password')?.hasError('required')">
+                  Campo obrigatório
+                </mat-error>
+                <mat-error *ngIf="formUsuario.get('password')?.hasError('minlength')">
+                  Mínimo de 6 caracteres
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>Confirmar Senha</mat-label>
+                <input 
+                  matInput 
+                  [type]="mostrarConfirmaSenha() ? 'text' : 'password'"
+                  formControlName="confirmPassword" 
+                  placeholder="Confirme a senha">
+                <mat-icon matPrefix>lock</mat-icon>
+                <button 
+                  mat-icon-button 
+                  matSuffix 
+                  type="button"
+                  (click)="toggleMostrarConfirmaSenha()">
+                  <mat-icon>{{ mostrarConfirmaSenha() ? 'visibility' : 'visibility_off' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="formUsuario.get('confirmPassword')?.hasError('required')">
+                  Campo obrigatório
+                </mat-error>
+                <mat-error *ngIf="formUsuario.hasError('passwordMismatch')">
+                  Senhas não conferem
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        }
+
+        <!-- Permissões -->
+        <h3 class="section-title">
+          <mat-icon>admin_panel_settings</mat-icon>
+          Permissões
+        </h3>
+        <div class="form-section">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Selecione as Permissões</mat-label>
+            <mat-select formControlName="permissions" multiple>
+              @for (permission of permissoesDisponiveis(); track permission.id) {
+                <mat-option [value]="permission">
+                  {{ permission.description }}
+                </mat-option>
+              }
+            </mat-select>
+            <mat-icon matPrefix>security</mat-icon>
+            <mat-error *ngIf="formUsuario.get('permissions')?.hasError('required')">
+              Selecione pelo menos uma permissão
+            </mat-error>
+          </mat-form-field>
+
+          @if ((formUsuario.get('permissions')?.value?.length ?? 0) > 0) {
+            <div class="permissions-selected">
+              <span class="permissions-label">Permissões selecionadas:</span>
+              <div class="permissions-chips">
+                @for (permission of formUsuario.get('permissions')?.value; track permission.id) {
+                  <mat-chip>
+                    <mat-icon>check_circle</mat-icon>
+                    {{ permission.description }}
+                  </mat-chip>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Configurações -->
+        <h3 class="section-title">
+          <mat-icon>settings</mat-icon>
+          Configurações
+        </h3>
+        <div class="form-section">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Tema</mat-label>
+              <mat-select formControlName="tema">
+                <mat-option value="light">
+                  <mat-icon>light_mode</mat-icon>
+                  Claro
+                </mat-option>
+                <mat-option value="dark">
+                  <mat-icon>dark_mode</mat-icon>
+                  Escuro
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>palette</mat-icon>
+            </mat-form-field>
+
+            <div class="checkboxes-group flex-1">
+              <mat-checkbox formControlName="enabled">
+                Usuário Ativo
+              </mat-checkbox>
+              <mat-checkbox formControlName="accountNonExpired">
+                Conta Não Expirada
+              </mat-checkbox>
+              <mat-checkbox formControlName="accountNonLocked">
+                Conta Não Bloqueada
+              </mat-checkbox>
+              <mat-checkbox formControlName="credentialsNonExpired">
+                Credenciais Não Expiradas
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="form-actions">
+          <button mat-button type="button" routerLink="/usuarios">
+            <mat-icon>close</mat-icon>
+            Cancelar
+          </button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            [disabled]="formUsuario.invalid || salvando()">
+            @if (salvando()) {
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Salvando...</span>
+            } @else {
+              <ng-container>
+                <mat-icon>{{ modoEdicao ? 'save' : 'add' }}</mat-icon>
+                <span>{{ modoEdicao ? 'Salvar Alterações' : 'Cadastrar Usuário' }}</span>
+              </ng-container>
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

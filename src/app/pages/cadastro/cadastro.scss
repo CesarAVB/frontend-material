@@ -14,7 +14,6 @@
   padding: 2rem;
 
   ::ng-deep {
-    // Header do Stepper
     .mat-stepper-horizontal-line {
       border-top-color: #e2e8f0;
       margin: 0 -16px;
@@ -54,7 +53,6 @@
       }
     }
 
-    // Conteúdo
     .mat-horizontal-content-container {
       padding: 2rem 0 0 0;
     }
@@ -65,7 +63,6 @@
   max-width: 900px;
   margin: 0 auto;
 
-  // Título fora do card
   > .section-title {
     font-size: 1.125rem;
     font-weight: 700;
@@ -77,7 +74,6 @@
   }
 }
 
-// Seções do Formulário
 .form-section {
   margin-bottom: 2.5rem;
   padding: 2rem;
@@ -125,7 +121,6 @@
   letter-spacing: 0.5px;
 }
 
-// Tipo de Pessoa
 .tipo-pessoa-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -193,10 +188,7 @@
     }
 
     .tipo-info {
-      h4 {
-        color: #1976d2;
-      }
-
+      h4,
       p {
         color: #1976d2;
       }
@@ -204,7 +196,6 @@
   }
 }
 
-// Form Fields
 .full-width {
   width: 100%;
 }
@@ -284,7 +275,6 @@
   }
 }
 
-// Botão Adicionar
 .btn-add {
   width: 100%;
   height: 52px;
@@ -307,7 +297,6 @@
   }
 }
 
-// Grupo de botões (para múltiplos botões de adicionar)
 .btn-group {
   display: flex;
   gap: 1rem;
@@ -318,7 +307,6 @@
   }
 }
 
-// Ações do Step
 .step-actions {
   display: flex;
   justify-content: space-between;
@@ -371,30 +359,109 @@
   }
 }
 
-// Responsividade
+// Responsividade para tablets
+@media (max-width: 1024px) {
+  .cadastro-container {
+    padding: 1.75rem;
+  }
+
+  .custom-stepper {
+    padding: 1.75rem;
+  }
+
+  .form-section {
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .step-content {
+    max-width: 100%;
+  }
+}
+
+// Responsividade para mobile
 @media (max-width: 768px) {
   .cadastro-container {
     padding: 1rem;
   }
 
-  .cadastro-header {
-    padding: 1rem;
+  .custom-stepper {
+    padding: 1.25rem;
+    border-radius: 12px;
 
-    .header-text h1 {
-      font-size: 1.5rem;
+    ::ng-deep {
+      .mat-step-header {
+        padding: 0.75rem;
+
+        .mat-step-icon {
+          width: 28px;
+          height: 28px;
+          font-size: 0.875rem;
+        }
+
+        .mat-step-label {
+          font-size: 0.875rem;
+        }
+      }
+
+      .mat-horizontal-content-container {
+        padding: 1.5rem 0 0 0;
+      }
     }
   }
 
-  .custom-stepper {
-    padding: 1rem;
+  .form-section {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
   }
 
-  .form-section {
-    padding: 1.5rem;
+  .section-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .section-title {
+    font-size: 1rem;
   }
 
   .tipo-pessoa-grid {
     grid-template-columns: 1fr;
+  }
+
+  .tipo-card {
+    padding: 1.25rem;
+
+    // Desabilita hover em mobile
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .tipo-info {
+      h4 {
+        font-size: 0.9375rem;
+      }
+
+      p {
+        font-size: 0.8125rem;
+      }
+    }
   }
 
   .form-row {
@@ -406,12 +473,203 @@
     }
   }
 
-  .step-actions {
+  .btn-add {
+    height: 48px;
+    font-size: 0.875rem;
+
+    // Desabilita hover em mobile
+    &:hover {
+      transform: none;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  .btn-group {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
+  }
+
+  .step-actions {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
 
     button {
       width: 100%;
+      height: 42px;
+      font-size: 0.875rem;
+
+      // Desabilita hover em mobile
+      &.mat-mdc-raised-button:hover {
+        transform: none;
+      }
+
+      &.mat-mdc-raised-button:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+}
+
+// Responsividade para mobile pequeno
+@media (max-width: 480px) {
+  .cadastro-container {
+    padding: 0.875rem;
+  }
+
+  .custom-stepper {
+    padding: 1rem;
+
+    ::ng-deep {
+      .mat-step-header {
+        padding: 0.5rem;
+
+        .mat-step-icon {
+          width: 26px;
+          height: 26px;
+          font-size: 0.8125rem;
+        }
+
+        .mat-step-label {
+          font-size: 0.8125rem;
+        }
+      }
+    }
+  }
+
+  .form-section {
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title-group {
+    gap: 0.5rem;
+  }
+
+  .section-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .section-title {
+    font-size: 0.9375rem;
+  }
+
+  .badge-primary {
+    font-size: 0.6875rem;
+    padding: 0.2rem 0.625rem;
+  }
+
+  .tipo-card {
+    padding: 1rem;
+    gap: 0.75rem;
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      padding: 0.625rem;
+    }
+
+    .tipo-info {
+      h4 {
+        font-size: 0.875rem;
+      }
+
+      p {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  ::ng-deep .mat-mdc-form-field {
+    input,
+    .mat-mdc-select {
+      font-size: 0.875rem;
+    }
+
+    .mat-mdc-form-field-error {
+      font-size: 0.75rem;
+    }
+  }
+
+  .btn-add {
+    height: 44px;
+    font-size: 0.8125rem;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .step-actions {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+
+    button {
+      height: 40px;
+      font-size: 0.8125rem;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+// Ajuste para landscape em mobile
+@media (max-width: 768px) and (orientation: landscape) {
+  .custom-stepper {
+    ::ng-deep .mat-horizontal-content-container {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+  }
+
+  .tipo-pessoa-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// Ajuste para telas muito pequenas
+@media (max-width: 360px) {
+  .cadastro-container {
+    padding: 0.75rem;
+  }
+
+  .custom-stepper {
+    padding: 0.875rem;
+  }
+
+  .form-section {
+    padding: 0.875rem;
+  }
+}
+
+// Otimização para touch devices
+@media (hover: none) and (pointer: coarse) {
+  .tipo-card,
+  .btn-add,
+  .step-actions button {
+    // Aumenta área de toque
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
     }
   }
 }

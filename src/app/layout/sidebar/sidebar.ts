@@ -58,7 +58,8 @@ export class SidebarComponent implements OnInit {
 
   menuItems: MenuItem[] = [
     { route: '/dashboard', icon: 'dashboard', label: 'Dashboard' },
-    { route: '/clientes', icon: 'people', label: 'Clientes' }
+    { route: '/clientes', icon: 'people', label: 'Clientes' },
+    { route: '/usuarios', icon: 'admin_panel_settings', label: 'Usuários' }
   ];
 
   ngOnInit(): void {

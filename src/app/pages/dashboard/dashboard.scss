@@ -75,7 +75,6 @@
   position: relative;
   overflow: hidden;
 
-  // Efeito de gradiente no hover
   &::before {
     content: '';
     position: absolute;
@@ -312,14 +311,62 @@
   }
 }
 
-// Responsividade
+// Responsividade para tablets grandes
 @media (max-width: 1200px) {
   .stats-grid,
   .quick-access-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
 }
 
+// Responsividade para tablets
+@media (max-width: 1024px) {
+  .dashboard-content {
+    padding: 1.75rem;
+  }
+
+  .stats-grid {
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .quick-access-section {
+    margin-bottom: 2rem;
+  }
+
+  .quick-card mat-card-content {
+    padding: 2rem 1.5rem;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+    }
+
+    h3 {
+      font-size: 1.125rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+    }
+  }
+
+  .table-card mat-card-header {
+    padding: 1.25rem 1.5rem;
+
+    mat-card-title {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+// Responsividade para mobile
 @media (max-width: 768px) {
   .dashboard-content {
     padding: 1.5rem;
@@ -332,46 +379,272 @@
   }
 
   .section-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     margin-bottom: 1rem;
+    padding-left: 0.75rem;
+
+    &::before {
+      width: 3px;
+      height: 24px;
+    }
+  }
+
+  .quick-access-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .quick-card {
+    border-radius: 12px;
+
+    // Desabilita hover em mobile
+    &:hover {
+      transform: none;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+      border-color: #e2e8f0;
+
+      mat-card-content {
+        mat-icon {
+          transform: none;
+          color: #2563eb;
+        }
+
+        h3 {
+          color: #0f172a;
+        }
+      }
+
+      &::before {
+        transform: scaleX(0);
+      }
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    mat-card-content {
+      padding: 1.75rem 1.25rem;
+
+      mat-icon {
+        font-size: 44px;
+        width: 44px;
+        height: 44px;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+      }
+
+      h3 {
+        font-size: 1.0625rem;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 0.8125rem;
+      }
+    }
+  }
+
+  .table-card {
+    border-radius: 12px;
+
+    mat-card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1.25rem;
+
+      mat-card-title {
+        font-size: 1.0625rem;
+      }
+
+      button {
+        width: 100%;
+        padding: 0.625rem;
+        justify-content: center;
+      }
+    }
+  }
+
+  .clients-table {
+    ::ng-deep {
+      .mat-mdc-header-cell,
+      .mat-mdc-cell {
+        padding: 1rem 0.75rem;
+        font-size: 0.875rem;
+      }
+
+      .mat-mdc-header-cell {
+        font-size: 0.75rem;
+      }
+    }
+
+    .cliente-info {
+      gap: 0.625rem;
+
+      span {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  .loading-state,
+  .empty-state {
+    padding: 3rem 1.5rem;
+    border-radius: 10px;
+  }
+
+  .empty-state {
+    mat-icon {
+      font-size: 56px;
+      width: 56px;
+      height: 56px;
+      margin-bottom: 1.25rem;
+    }
+
+    p {
+      font-size: 0.9375rem;
+      margin-bottom: 1.25rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.875rem 1.25rem;
+
+      // Desabilita hover em mobile
+      &:hover {
+        transform: none;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+}
+
+// Responsividade para mobile pequeno
+@media (max-width: 480px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    margin-bottom: 0.875rem;
   }
 
   .quick-card mat-card-content {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
 
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      margin-bottom: 0.875rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.8125rem;
+      line-height: 1.4;
+    }
+  }
+
+  .table-card mat-card-header {
+    padding: 1rem;
+
+    mat-card-title {
+      font-size: 1rem;
+    }
+
+    button {
+      font-size: 0.8125rem;
+      padding: 0.5rem;
+    }
+  }
+
+  .clients-table {
+    ::ng-deep {
+      .mat-mdc-header-cell,
+      .mat-mdc-cell {
+        padding: 0.875rem 0.625rem;
+      }
+
+      .mat-mdc-cell {
+        font-size: 0.8125rem;
+      }
+    }
+  }
+
+  .loading-state,
+  .empty-state {
+    padding: 2.5rem 1rem;
+  }
+
+  .empty-state {
     mat-icon {
       font-size: 48px;
       width: 48px;
       height: 48px;
     }
 
-    h3 {
-      font-size: 1.125rem;
+    p {
+      font-size: 0.875rem;
     }
-  }
-
-  .table-card mat-card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
 
     button {
-      width: 100%;
+      font-size: 0.875rem;
+      padding: 0.75rem 1rem;
     }
   }
 }
 
-@media (max-width: 480px) {
-  .dashboard-content {
-    padding: 1rem;
+// Ajuste para landscape em mobile
+@media (max-width: 768px) and (orientation: landscape) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .quick-card mat-card-content {
-    padding: 1.5rem 1rem;
+  .quick-access-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .empty-state,
   .loading-state {
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.5rem;
+  }
+}
+
+// Ajuste para telas muito pequenas
+@media (max-width: 360px) {
+  .dashboard-content {
+    padding: 0.875rem;
+  }
+
+  .section-title {
+    font-size: 0.9375rem;
+  }
+
+  .quick-card mat-card-content {
+    padding: 1.25rem 0.875rem;
+  }
+}
+
+// Otimização para touch devices
+@media (hover: none) and (pointer: coarse) {
+  .quick-card {
+    // Aumenta área de toque
+    &::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+    }
   }
 }

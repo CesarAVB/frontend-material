@@ -7,6 +7,8 @@ export interface Usuario {
   email: string;
   username: string;
   password: string;
+  fotoPerfil?: string;
+  tema: 'light' | 'dark';
   accountNonExpired: boolean;
   accountNonLocked: boolean;
   credentialsNonExpired: boolean;

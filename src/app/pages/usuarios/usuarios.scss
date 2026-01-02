@@ -1,5 +1,5 @@
-// src/app/pages/clientes/clientes.scss
-.clientes-container {
+// src/app/pages/usuarios/usuarios.scss
+.usuarios-container {
   padding: 2rem;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   min-height: calc(100vh - 88px);
@@ -154,7 +154,7 @@
   background: white;
 }
 
-.clientes-table {
+.usuarios-table {
   width: 100%;
 
   ::ng-deep {
@@ -189,36 +189,36 @@
   }
 }
 
-.cliente-info {
+.usuario-info {
   display: flex;
   align-items: center;
   gap: 0.875rem;
 }
 
-.cliente-detalhes {
+.usuario-detalhes {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 
-  .cliente-nome {
+  .usuario-nome {
     font-weight: 600;
     color: #0f172a;
     font-size: 0.9375rem;
   }
 
-  .cliente-id {
+  .usuario-username {
     font-size: 0.8125rem;
     color: #94a3b8;
     font-weight: 500;
   }
 }
 
-.contato-item {
+.email-item {
   display: flex;
   align-items: center;
   gap: 0.625rem;
 
-  .contato-icon {
+  .email-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
@@ -228,6 +228,61 @@
   span {
     color: #475569;
     font-size: 0.9375rem;
+  }
+}
+
+.permissions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 250px;
+
+  mat-chip {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    height: auto;
+    background-color: #e0e7ff;
+    color: #3730a3;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+
+  .chip-more {
+    background-color: #f1f5f9;
+    color: #64748b;
+  }
+}
+
+.no-permissions {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+mat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 16px;
+  font-weight: 600;
+  height: auto;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  &.chip-light {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  &.chip-dark {
+    background-color: #e0e7ff;
+    color: #3730a3;
   }
 }
 
@@ -362,6 +417,54 @@
   }
 }
 
+.activate-item {
+  color: #059669;
+
+  mat-icon {
+    color: #059669;
+  }
+
+  &:hover {
+    background-color: #d1fae5;
+  }
+}
+
+.deactivate-item {
+  color: #dc2626;
+
+  mat-icon {
+    color: #dc2626;
+  }
+
+  &:hover {
+    background-color: #fee2e2;
+  }
+}
+
+.lock-item {
+  color: #d97706;
+
+  mat-icon {
+    color: #d97706;
+  }
+
+  &:hover {
+    background-color: #fef3c7;
+  }
+}
+
+.unlock-item {
+  color: #059669;
+
+  mat-icon {
+    color: #059669;
+  }
+
+  &:hover {
+    background-color: #d1fae5;
+  }
+}
+
 ::ng-deep {
   .mat-mdc-menu-panel {
     border-radius: 12px;
@@ -411,11 +514,11 @@
 
 // Responsividade para tablets
 @media (max-width: 1024px) {
-  .clientes-container {
+  .usuarios-container {
     padding: 1.75rem;
   }
 
-  .clientes-table {
+  .usuarios-table {
     ::ng-deep {
       .mat-mdc-header-cell,
       .mat-mdc-cell {
@@ -423,7 +526,7 @@
       }
     }
 
-    .cliente-detalhes .cliente-id {
+    .usuario-detalhes .usuario-username {
       display: none;
     }
   }
@@ -431,7 +534,7 @@
 
 // Responsividade para mobile
 @media (max-width: 768px) {
-  .clientes-container {
+  .usuarios-container {
     padding: 1.5rem;
   }
 
@@ -496,8 +599,8 @@
     overflow-x: auto;
   }
 
-  .clientes-table {
-    min-width: 600px;
+  .usuarios-table {
+    min-width: 800px;
 
     ::ng-deep {
       .mat-mdc-header-cell,
@@ -524,24 +627,24 @@
       }
     }
 
-    .cliente-info {
+    .usuario-info {
       gap: 0.625rem;
     }
 
-    .cliente-detalhes {
-      .cliente-nome {
+    .usuario-detalhes {
+      .usuario-nome {
         font-size: 0.875rem;
       }
 
-      .cliente-id {
+      .usuario-username {
         display: none;
       }
     }
 
-    .contato-item {
+    .email-item {
       gap: 0.5rem;
 
-      .contato-icon {
+      .email-icon {
         font-size: 16px;
         width: 16px;
         height: 16px;
@@ -611,7 +714,7 @@
 
 // Responsividade para mobile pequeno
 @media (max-width: 480px) {
-  .clientes-container {
+  .usuarios-container {
     padding: 1rem;
   }
 
@@ -648,8 +751,8 @@
     border-radius: 10px;
   }
 
-  .clientes-table {
-    min-width: 550px;
+  .usuarios-table {
+    min-width: 700px;
 
     ::ng-deep {
       .mat-mdc-header-cell,
@@ -666,16 +769,16 @@
       }
     }
 
-    .cliente-info {
+    .usuario-info {
       gap: 0.5rem;
     }
 
-    .cliente-detalhes .cliente-nome {
+    .usuario-detalhes .usuario-nome {
       font-size: 0.8125rem;
     }
 
-    .contato-item {
-      .contato-icon {
+    .email-item {
+      .email-icon {
         font-size: 14px;
         width: 14px;
         height: 14px;
@@ -734,12 +837,12 @@
 
 // Ajuste para telas muito pequenas
 @media (max-width: 360px) {
-  .clientes-container {
+  .usuarios-container {
     padding: 0.875rem;
   }
 
-  .clientes-table {
-    min-width: 500px;
+  .usuarios-table {
+    min-width: 650px;
   }
 
   .filtros-panel button {
@@ -764,7 +867,7 @@
     }
   }
 
-  .clientes-table ::ng-deep .mat-mdc-row {
+  .usuarios-table ::ng-deep .mat-mdc-row {
     // Aumenta área de toque das linhas
     min-height: 56px;
   }

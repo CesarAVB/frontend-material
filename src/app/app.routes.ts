@@ -34,6 +34,26 @@ export const routes: Routes = [
         path: 'cadastro/:id',
         loadComponent: () => import('./pages/cadastro/cadastro').then(m => m.CadastroComponent),
       },
+      // Rota de Listagem de Usuários
+      {
+        path: 'usuarios',
+        loadComponent: () => import('./pages/usuarios/usuarios').then(m => m.UsuariosComponent),
+        canActivate: [authGuard]
+      },
+
+      // Rota de Cadastro de Novo Usuário
+      {
+        path: 'usuarios/cadastro',
+        loadComponent: () => import('./pages/usuario-cadastro/usuario-cadastro').then(m => m.UsuarioCadastroComponent),
+        canActivate: [authGuard]
+      },
+
+      // Rota de Edição de Usuário
+      {
+        path: 'usuarios/cadastro/:id',
+        loadComponent: () => import('./pages/usuario-cadastro/usuario-cadastro').then(m => m.UsuarioCadastroComponent),
+        canActivate: [authGuard]
+      },
       {
         path: '',
         redirectTo: 'dashboard',
