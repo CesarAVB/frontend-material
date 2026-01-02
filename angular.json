@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sistema-cadastro-material": {
+    "sistema-syscadastro": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -60,13 +60,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "800kB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "12kB",
+                  "maximumError": "15kB"
                 }
               ],
               "outputHashing": "all"
@@ -83,10 +83,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "sistema-cadastro-material:build:production"
+              "buildTarget": "sistema-syscadastro:build:production"
             },
             "development": {
-              "buildTarget": "sistema-cadastro-material:build:development"
+              "buildTarget": "sistema-syscadastro:build:development"
             }
           },
           "defaultConfiguration": "development"
